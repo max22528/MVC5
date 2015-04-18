@@ -27,6 +27,11 @@ namespace WebApplication1.Controllers
             return View();
         }
 
+        public ActionResult Profile()
+        {
+            ViewBag.Message = "Hi, my name is Max.";
 
+            return View();
+        }
     }
 }
