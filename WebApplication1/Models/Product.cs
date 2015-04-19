@@ -11,6 +11,7 @@ namespace WebApplication1.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Product
     {
@@ -20,6 +21,8 @@ namespace WebApplication1.Models
         }
     
         public int ProductId { get; set; }
+        [Required(ErrorMessageResourceType = typeof(Resources.Products), ErrorMessageResourceName = "ProductNameRequired")]
+        [StringLength(10, ErrorMessage = "請勿輸入超過10個字")]
         public string ProductName { get; set; }
         public Nullable<decimal> Price { get; set; }
         public Nullable<bool> Active { get; set; }
