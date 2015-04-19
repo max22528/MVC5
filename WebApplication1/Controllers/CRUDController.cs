@@ -11,7 +11,7 @@ namespace WebApplication1.Controllers
     public class CRUDController : Controller
     {
         // GET: CRUD
-        public ActionResult Index()
+        public ActionResult Index(string keyword)
         {
     
             List<SelectListItem> items = new List<SelectListItem>();
@@ -23,7 +23,7 @@ namespace WebApplication1.Controllers
             //&& p.ProductName.StartsWith()
 
             var db = new FabricsEntities();
-            var data = db.Product.Where(p => p.ProductName.StartsWith("A"));
+            var data = db.Product.Where(p => p.ProductName.StartsWith(keyword));
 
             return View(data);
         }
@@ -117,19 +117,27 @@ namespace WebApplication1.Controllers
             var db = new FabricsEntities();
 
             var client = db.Client.Find(id);
-            
-            foreach (var item in client.Order.ToList())
+
+            if (client != null)
             {
-                db.OrderLine.RemoveRange(item.OrderLine.ToList());
+                foreach (var item in client.Order.ToList())
+                {
+                    db.OrderLine.RemoveRange(item.OrderLine.ToList());
+                }
+
+                db.Order.RemoveRange(client.Order.ToList());
+
+                db.Client.Remove(client);
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
             }
-
-            db.Order.RemoveRange(client.Order.ToList());
-
-            db.Client.Remove(client);
-
-            db.SaveChanges();
-
-            return RedirectToAction("Index");
+            else
+            {
+                return RedirectToAction("Index");
+            }
+            
         }
 
         // POST: CRUD/Delete/5
