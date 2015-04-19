@@ -21,6 +21,22 @@ namespace WebApplication1.Controllers
             return View(client.ToList());
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(LoginVM data)
+        {
+            return View("LoginResult", data);
+        }
+
+        public ActionResult LoginResult()
+        {
+            return View();
+        }
+
         // GET: Clients/Details/5
         public ActionResult Details(int? id)
         {
